@@ -1,0 +1,602 @@
+{
+	"info": {
+		"_postman_id": "d70843f3-81e2-4d1c-8da4-c077b59ae0e8",
+		"name": "Feeds",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Feeds",
+			"description": "",
+			"item": [
+				{
+					"name": "Get all feeds",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "https://api.feedster.me/v1/feeds/",
+							"protocol": "https",
+							"host": [
+								"api",
+								"feedster",
+								"me"
+							],
+							"path": [
+								"v1",
+								"feeds",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get feeds by search ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "58281b8c-94b7-4b9d-b8e4-7102238b7694",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "https://api.feedster.me/v1/feeds/?search={{search-word}}",
+							"protocol": "https",
+							"host": [
+								"api",
+								"feedster",
+								"me"
+							],
+							"path": [
+								"v1",
+								"feeds",
+								""
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "{{search-word}}"
+								},
+								{
+									"key": "",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all categories",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "https://api.feedster.me/v1/categories/",
+							"protocol": "https",
+							"host": [
+								"api",
+								"feedster",
+								"me"
+							],
+							"path": [
+								"v1",
+								"categories",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create new feed",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "9f7fd1fb-709d-407a-b33d-451323b4a35c",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "url",
+									"value": "http://feeds.sport24.co.za/articles/Sport/Golf/rss",
+									"type": "text",
+									"description": ""
+								},
+								{
+									"key": "category",
+									"value": "3",
+									"type": "text",
+									"description": ""
+								}
+							]
+						},
+						"url": {
+							"raw": "https://api.feedster.me/v1/feeds/",
+							"protocol": "https",
+							"host": [
+								"api",
+								"feedster",
+								"me"
+							],
+							"path": [
+								"v1",
+								"feeds",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Multifeed",
+			"description": "",
+			"item": [
+				{
+					"name": "Create new multifeed",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9e639cac-c539-4c68-8638-004e94e6a08a",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"console.log(\"Env Title: \" + pm.environment.get(\"multiFeedTitle\"));",
+									"console.log(\"Response Title: \" + pm.response.json().title);",
+									"console.log(\"DataFile Title: \" + data.multiFeedTitle);",
+									"",
+									"pm.test(\"Title is correct\", function () {",
+									"    pm.expect(pm.environment.get(\"multiFeedTitle\")).to.equal(pm.response.json().title);",
+									"    //pm.expect(data.multiFeedTitle).to.equal(pm.response.json().title);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Description is correct\", function () {",
+									"    pm.expect(pm.environment.get(\"multiFeedDescription\")).to.equal(pm.response.json().description);",
+									"    //pm.expect(data.multiFeedDescription).to.equal(pm.response.json().description);",
+									"});",
+									"",
+									"",
+									"pm.environment.set(\"multi_id\", pm.response.json().id);",
+									"",
+									"",
+									"",
+									""
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "ff0ea565-91c0-4bcf-a7d3-c38f8df8bbec",
+								"type": "text/javascript",
+								"exec": [
+									"pm.environment.set(\"multiFeedTitle\", \"myMulti 2\");",
+									"pm.environment.set(\"multiFeedDescription\", \"about myMulitNews 2\");"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "{{multiFeedTitle}}",
+									"description": "",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "{{multiFeedDescription}}",
+									"description": "",
+									"type": "text"
+								},
+								{
+									"key": "public",
+									"value": "true",
+									"description": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://api.feedster.me/v1/multifeeds/",
+							"protocol": "https",
+							"host": [
+								"api",
+								"feedster",
+								"me"
+							],
+							"path": [
+								"v1",
+								"multifeeds",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Check created multifeed",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ae4cf9e6-a079-4a1f-8c08-b91a83e4bc24",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Body contains created multifeed\", function () {",
+									"    pm.expect(pm.response.text()).to.include(pm.environment.get(\"multiFeedTitle\"));",
+									"    pm.expect(pm.response.text()).to.include(pm.environment.get(\"multiFeedDescription\"));",
+									"    //pm.expect(pm.response.text()).to.include(data.multiFeedTitle);",
+									"    //pm.expect(pm.response.text()).to.include(data.multiFeedDescription);",
+									"});",
+									"",
+									"",
+									"",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "https://api.feedster.me/v1/multifeeds/?page=4",
+							"protocol": "https",
+							"host": [
+								"api",
+								"feedster",
+								"me"
+							],
+							"path": [
+								"v1",
+								"multifeeds",
+								""
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "4"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add feed to multifeed",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "07e76dcb-ea45-44cf-ad6b-da7f70d71cdc",
+								"type": "text/javascript",
+								"exec": [
+									"pm.environment.set(\"feed_id\", \"20\");",
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "3ca43bca-d3c1-4ae5-a3d6-6afabfb39f3b",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Multifeed is correct\", function () {",
+									"    pm.expect(pm.environment.get(\"multiFeedTitle\")).to.equal(pm.response.json().title);",
+									"    //pm.expect(data.multiFeedTitle).to.equal(pm.response.json().title);",
+									"});",
+									"",
+									"pm.test(\"Multifeed contains added feed\", function () {",
+									"    pm.expect(pm.response.text()).to.include(pm.environment.get(\"feed_id\"));",
+									"}); "
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "{{feed_id}}",
+									"description": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://api.feedster.me/v1/multifeeds/{{multi_id}}/",
+							"protocol": "https",
+							"host": [
+								"api",
+								"feedster",
+								"me"
+							],
+							"path": [
+								"v1",
+								"multifeeds",
+								"{{multi_id}}",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Check added feeds",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "47135986-9e38-4281-a775-e3fe0df09cb3",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Multifeed exists\", function () {",
+									"    pm.expect(pm.response.text()).to.include(pm.environment.get(\"multiFeedTitle\"));",
+									"    //pm.expect(pm.response.text()).to.include(data.multiFeedTitle);",
+									"});",
+									"",
+									"pm.test(\"Multifeed contains added feed\", function () {",
+									"    pm.expect(pm.response.text()).to.include(pm.environment.get(\"feed_id\"));",
+									"}); ",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "https://api.feedster.me/v1/multifeeds/?page=4",
+							"protocol": "https",
+							"host": [
+								"api",
+								"feedster",
+								"me"
+							],
+							"path": [
+								"v1",
+								"multifeeds",
+								""
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "4"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove feed from multifeed",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "2b9216db-e028-42aa-ab5b-f22ff7c0f367",
+								"type": "text/javascript",
+								"exec": [
+									"",
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "dd46fa24-3e64-44df-bad6-3edc6f9b9b5f",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "https://api.feedster.me/v1/multifeeds/{{multi_id}}/{{feed_id}}/",
+							"protocol": "https",
+							"host": [
+								"api",
+								"feedster",
+								"me"
+							],
+							"path": [
+								"v1",
+								"multifeeds",
+								"{{multi_id}}",
+								"{{feed_id}}",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Check that feed removed",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "6180e3b1-eb14-42e2-969a-ea2b3295413a",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Multifeed exists\", function () {",
+									"    pm.expect(pm.response.text()).to.include(pm.environment.get(\"multiFeedTitle\"));",
+									"    //pm.expect(pm.response.text()).to.include(data.multiFeedTitle);",
+									"});",
+									"",
+									"pm.test(\"Multifeed doesnt contain removed feed\", function () {",
+									"    pm.expect(pm.response.text()).to.not.include(pm.environment.get(\"NBC News World News\"));",
+									"}); ",
+									"",
+									"",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "https://api.feedster.me/v1/multifeeds/?page=4",
+							"protocol": "https",
+							"host": [
+								"api",
+								"feedster",
+								"me"
+							],
+							"path": [
+								"v1",
+								"multifeeds",
+								""
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "4"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
